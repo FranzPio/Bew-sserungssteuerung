@@ -19,15 +19,15 @@ void Timer0_Init(void)
 {
   cli();
   
-  TCCR0A = 0;                             // Register von Timer 0 werden zurückgesetzt
+  TCCR0A = 0,								// Register von Timer 0 werden zurückgesetzt
   TCCR0B = 0;
   TCNT0 = 0;
-  TCCR0A |= (1 << WGM01);                 // CTC-Modus gewählt
-  OCR0A = 249;							  // Zeit auf 1 ms eingestellt
-  TCCR0B |= ((1 << CS01) | (1 << CS00));  // Prescaler wird auf 64 gesetzt
-  TIMSK0 |= (1 << OCIE0A);				  // Timer 0 wird jetzt gestartet
+  TCCR0A |= (1 << WGM01);					// CTC-Modus gewählt
+  OCR0A = 249;								// Zeit auf 1 ms eingestellt
+  TCCR0B |= ((1 << CS01) | (1 << CS00));	// Prescaler wird auf 64 gesetzt
+  TIMSK0 |= (1 << OCIE0A);					// Timer 0 wird jetzt gestartet
   
-  sei();								  // Interrupts werden freigegeben
+  sei();									// Interrupts werden freigegeben
 }
 
 
