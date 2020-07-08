@@ -55,6 +55,7 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT, &Wire, OLED_RESET);
 // Definition der Betriebsmodi
 #define MODE_PLAN       0
 #define MODE_AUTO       1
+#define MODE_DEMO       2
 
 
 // ===================================
@@ -64,7 +65,8 @@ const long INTERVAL = 1000;  // in ms (kann auf 1000 gesetzt werden für 1s Mess
 const long MAX_FREQ = 200 * INTERVAL;
 const long MIN_FREQ = 50 * INTERVAL;
 int percentage;
-int threshold_perc = 50, threshold_perc_temp;
+//int threshold_perc = 50, threshold_perc_temp;
+int threshold_perc = 70, threshold_perc_temp;
 unsigned char sensor_recheck_mins = 10;  // 10 Minuten nach dem Gießen wird erneut gemessen (im Auto-Modus)
 
 char seconds = 0, seconds_temp;
@@ -190,6 +192,12 @@ boolean watering_time() {
         }
       }
     break;
+
+    case MODE_DEMO:
+      if (percentage <= threshold_perc) {
+        return true;
+      }
+    break;
   }
   return false;
 }
@@ -197,10 +205,11 @@ boolean watering_time() {
 
 void increment_time_1s() {
   seconds++;
+    if (watering_time()) start_pump();
     if (seconds > SECONDS_MAX) {
       seconds = SECONDS_MIN;
       minutes++;
-      if (watering_time()) start_pump();
+      //if (watering_time()) start_pump();
     
       if (minutes > MINUTES_MAX) {
         minutes = MINUTES_MIN;
@@ -674,6 +683,9 @@ void loop() {
       pump_elapsed_secs++;
        if (pump_elapsed_secs >= pump_duration_secs) {
          stop_pump();
+       }
+       else if (percentage >= threshold_perc) {
+        stop_pump();
        }
     }
   }
@@ -1196,7 +1208,9 @@ void loop() {
       case MENU_INFO:
         switch (key_state) {
           case KEY_OK:
-            display_sleep = !display_sleep;
+            //display_sleep = !display_sleep;
+            if (mode != MODE_DEMO) mode = MODE_DEMO;
+            else mode = MODE_PLAN;
           break;
           case KEY_ESC:
             if (!display_sleep) menu_page = MENU_SETTINGS;
