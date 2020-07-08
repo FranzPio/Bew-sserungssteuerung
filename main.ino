@@ -59,10 +59,10 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT, &Wire, OLED_RESET);
 
 // ===================================
 
-unsigned long frequency;
-const unsigned long INTERVAL = 1000;  // in ms (kann auf 1000 gesetzt werden für 1s Messintervall)
-const unsigned long MAX_FREQ = 200 * INTERVAL;
-const unsigned long MIN_FREQ = 50 * INTERVAL;
+long frequency;
+const long INTERVAL = 1000;  // in ms (kann auf 1000 gesetzt werden für 1s Messintervall)
+const long MAX_FREQ = 200 * INTERVAL;
+const long MIN_FREQ = 50 * INTERVAL;
 int percentage;
 int threshold_perc = 50, threshold_perc_temp;
 unsigned char sensor_recheck_mins = 10;  // 10 Minuten nach dem Gießen wird erneut gemessen (im Auto-Modus)
@@ -91,7 +91,7 @@ volatile unsigned char pci_flag = 0;  // müssen als volatile deklariert werden,
 unsigned char menu_page = MENU_SETTINGS;
 char selection = 0;
 char subselection = 0;
-const unsigned char selector_pos[5][7] = {{15, 25, 35, 45}, {0, 66, 84, 102}, {0, 18, 36, 54, 72, 90, 108}, {60, 78, 96}, {15, 32}};
+const unsigned char selector_pos[5][7] = {{15, 25, 35, 45}, {0, 66, 84, 102}, {0, 18, 36, 54, 72, 90, 108}, {58, 76, 96}, {15, 32}};
 const unsigned char SELECTOR = 0x10;    // ⯈ 
 const unsigned char ARROW_LEFT = 0x1B;  // ←
 unsigned char selected_menu;
