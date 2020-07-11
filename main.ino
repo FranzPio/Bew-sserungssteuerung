@@ -668,7 +668,7 @@ void setup() {
 void loop() {
   if (FreqCounter::f_ready == 1) {
     frequency = FreqCounter::f_freq;
-    percentage = (frequency - MAX_FREQ) / ((MAX_FREQ - MIN_FREQ) / 100);  // Umrechnung Frequenz in Prozent relative Luftfeuchte (antiproportional)
+    percentage = ((frequency - MAX_FREQ) / ((MIN_FREQ - MAX_FREQ) / 100));  // Umrechnung Frequenz in Prozent relative Luftfeuchte (antiproportional)
 
     FreqCounter::start(INTERVAL);  // neues Zeitintervall beginnt
   }
